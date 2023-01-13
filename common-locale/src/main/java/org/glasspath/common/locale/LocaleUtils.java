@@ -449,6 +449,25 @@ public class LocaleUtils {
 
 	}
 
+	public static enum SystemOfUnits {
+
+		// TODO: Add Mass, Weight, Volume, Area, Length etc.?
+		// For now this is only used for mileage tracking (kilometers, miles)
+		METRIC("metric", "Kilometers", "km"),
+		IMPERIAL("imperial", "Miles", "mi");
+
+		public final String code;
+		public final String distanceDisplayName;
+		public final String distanceSymbol;
+
+		SystemOfUnits(String code, String displayName, String symbol) {
+			this.code = code;
+			this.distanceDisplayName = displayName;
+			this.distanceSymbol = symbol;
+		}
+
+	}
+
 	public static Locale getLocaleForTag(String tag) {
 		if (tag != null && tag.length() > 0) {
 			return Locale.forLanguageTag(tag);
@@ -500,6 +519,29 @@ public class LocaleUtils {
 		}
 
 		return null;
+
+	}
+
+	public static SystemOfUnits getSystemOfUnitsForLocale(Locale locale) {
+
+		if (locale != null) {
+
+			String countryCode = locale.getCountry();
+			switch (countryCode) {
+
+			case "US":
+			case "LR": // Liberia
+			case "MM": // Myanmar
+				return SystemOfUnits.IMPERIAL;
+
+			default:
+				return SystemOfUnits.METRIC;
+
+			}
+
+		} else {
+			return SystemOfUnits.METRIC;
+		}
 
 	}
 
