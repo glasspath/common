@@ -275,6 +275,13 @@ public class DateUtils {
 		return calendar1.getTimeInMillis();
 	}
 
+	public static long getYearAfterInMillis(long date) {
+		calendar1.setTimeInMillis(date);
+		resetCalendar1ToMidnight();
+		calendar1.add(Calendar.YEAR, 1);
+		return calendar1.getTimeInMillis();
+	}
+
 	public static int getPeriodInDays(long from, long to) {
 		return Math.abs(getDifferenceInDays(from, to)) + 1;
 	}
