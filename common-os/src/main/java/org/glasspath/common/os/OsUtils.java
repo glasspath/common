@@ -318,6 +318,16 @@ public class OsUtils {
 
 	}
 
+	public static boolean isValidFileName(String fileName) {
+
+		if (fileName != null && fileName.length() > 0) {
+			return fileName.equals(getValidFileName(fileName));
+		}
+
+		return false;
+
+	}
+
 	public static String getValidFileName(String fileName) {
 
 		if (fileName != null && fileName.length() > 0) {
