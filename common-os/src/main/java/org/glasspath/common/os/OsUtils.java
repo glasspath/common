@@ -346,7 +346,7 @@ public class OsUtils {
 
 	public static File getFileWithNewName(File file, String newFileName, File newParentDir, boolean keepOriginalExtension) {
 
-		if (newFileName != null && newFileName.length() > 0) {
+		if (file != null && newFileName != null && newFileName.length() > 0) {
 
 			String validFileName = getValidFileName(newFileName);
 			if (validFileName != null && newFileName.equals(validFileName)) {
