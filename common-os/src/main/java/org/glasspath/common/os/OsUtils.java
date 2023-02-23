@@ -280,16 +280,41 @@ public class OsUtils {
 
 	}
 
-	public static String getFileNameWithoutExtension(File file) {
+	public static String getExtension(File file) {
 
-		String fileName = file.getName();
+		if (file != null) {
 
-		int lastIndexOfDot = fileName.lastIndexOf("."); //$NON-NLS-1$
-		if (lastIndexOfDot > 0) {
-			fileName = fileName.substring(0, lastIndexOfDot);
+			String extension = file.getName();
+
+			int lastIndexOfDot = extension.lastIndexOf("."); //$NON-NLS-1$
+			if (lastIndexOfDot > 0) {
+				return extension.substring(lastIndexOfDot + 1);
+			} else {
+				return ""; //$NON-NLS-1$
+			}
+
 		}
 
-		return fileName;
+		return null;
+
+	}
+
+	public static String getFileNameWithoutExtension(File file) {
+
+		if (file != null) {
+
+			String fileName = file.getName();
+
+			int lastIndexOfDot = fileName.lastIndexOf("."); //$NON-NLS-1$
+			if (lastIndexOfDot > 0) {
+				fileName = fileName.substring(0, lastIndexOfDot);
+			}
+
+			return fileName;
+
+		}
+
+		return null;
 
 	}
 
