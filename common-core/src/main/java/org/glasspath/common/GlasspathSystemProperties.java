@@ -27,4 +27,6 @@ public interface GlasspathSystemProperties {
 
 	String NATIVE_LIBRARY_PATH = "glasspath.nativeLibraryPath";
 
+	String BUNDLED_FONTS_PATH = "glasspath.bundledFontsPath";
+
 }
