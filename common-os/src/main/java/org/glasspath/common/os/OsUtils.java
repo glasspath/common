@@ -343,6 +343,26 @@ public class OsUtils {
 
 	}
 
+	public static File getFileByAddingExtension(File file, String extension) {
+
+		if (file != null && extension != null) {
+
+			String fileName = file.getName();
+
+			extension = extension.trim();
+
+			try {
+				return new File(file.getParent(), fileName + (extension.length() == 0 ? "" : "." + extension)); //$NON-NLS-1$ //$NON-NLS-2$
+			} catch (Exception e) {
+				Common.LOGGER.error("Exception while getting file with other extension: ", e); //$NON-NLS-1$
+			}
+
+		}
+
+		return null;
+
+	}
+
 	public static boolean isValidFileName(String fileName) {
 
 		if (fileName != null && fileName.length() > 0) {
