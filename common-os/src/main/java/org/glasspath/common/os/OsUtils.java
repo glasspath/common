@@ -25,6 +25,7 @@ package org.glasspath.common.os;
 import java.awt.event.InputEvent;
 import java.io.File;
 import java.io.FileFilter;
+import java.io.IOException;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -153,6 +154,10 @@ public class OsUtils {
 	}
 
 	public static FileFilter createExtensionsFileFilter(List<String> extensions) {
+		return createExtensionsFileFilter(extensions, false);
+	}
+
+	public static FileFilter createExtensionsFileFilter(List<String> extensions, boolean includeHiddenFiles) {
 
 		return new FileFilter() {
 
@@ -161,19 +166,25 @@ public class OsUtils {
 
 				if (file != null) {
 
-					String fileName = file.getName();
-					if (fileName != null) {
+					if (!includeHiddenFiles && file.isHidden()) {
+						return false;
+					} else {
 
-						fileName = fileName.toLowerCase();
-						for (String extension : extensions) {
+						String fileName = file.getName();
+						if (fileName != null) {
 
-							// If extension is an empty string we will accept files without extension
-							if (extension.length() == 0) {
-								if (!fileName.contains(".")) { //$NON-NLS-1$
+							fileName = fileName.toLowerCase();
+							for (String extension : extensions) {
+
+								// If extension is an empty string we will accept files without extension
+								if (extension.length() == 0) {
+									if (!fileName.contains(".")) { //$NON-NLS-1$
+										return true;
+									}
+								} else if (fileName.endsWith("." + extension.toLowerCase())) { // Else check the extension //$NON-NLS-1$
 									return true;
 								}
-							} else if (fileName.endsWith(extension.toLowerCase())) { // Else check the extension
-								return true;
+
 							}
 
 						}
@@ -186,6 +197,22 @@ public class OsUtils {
 
 			}
 		};
+
+	}
+
+	public static boolean isSameFile(File file1, File file2) {
+
+		if (file1 != null && file2 != null) {
+
+			try {
+				return Files.isSameFile(file1.toPath(), file2.toPath());
+			} catch (IOException e) {
+				Common.LOGGER.error("Exception while checking for same files: ", e); //$NON-NLS-1$
+			}
+
+		}
+
+		return false;
 
 	}
 
@@ -232,7 +259,7 @@ public class OsUtils {
 
 	public static File getNextAvailableFile(File file, File newParentDir) {
 
-		File nextAvailableFile = getFileWithNewName(file, getNextAvailableFileName(file, newParentDir), newParentDir, true);
+		File nextAvailableFile = getFileWithNewName(file, getNextAvailableFileName(file, newParentDir, false), newParentDir, true);
 		if (nextAvailableFile != null && !nextAvailableFile.exists()) {
 			return nextAvailableFile;
 		}
@@ -241,7 +268,7 @@ public class OsUtils {
 
 	}
 
-	public static String getNextAvailableFileName(File file, File newParentDir) {
+	public static String getNextAvailableFileName(File file, File newParentDir, boolean includeExtension) {
 
 		String fileName = file.getName();
 		String extension = ""; //$NON-NLS-1$
@@ -262,10 +289,10 @@ public class OsUtils {
 			int count = 1;
 			while (count < MAX_NEW_FILE_NAME_COUNT) {
 
-				String newFileName = fileName + " (copy " + count + ")";
+				String newFileName = fileName + " (" + "copy" + " " + count + ")"; //$NON-NLS-1$ //$NON-NLS-3$ //$NON-NLS-4$
 				File nextAvailableFile = new File(parent, newFileName + extension);
 				if (!nextAvailableFile.exists()) {
-					return newFileName;
+					return newFileName + (includeExtension ? extension : ""); //$NON-NLS-1$
 				}
 
 				count++;
