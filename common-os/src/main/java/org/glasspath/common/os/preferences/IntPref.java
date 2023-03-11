@@ -24,34 +24,24 @@ package org.glasspath.common.os.preferences;
 
 import java.util.prefs.Preferences;
 
-/* 
- * The main purpose if this class is to avoid the usage of 
- * hard coded keys and default values in multiple places.
- * 
- * We don't use generics because we want to be able to do:
- * 
- * Pref myStringPref = new Pref("myStringPref", "some default value");
- * Pref myIntPref = new Pref("myIntPref", 123);
- * 
- */
-public class Pref {
+public class IntPref {
 
 	public final String key;
-	public final String defaultValue;
+	public final int defaultValue;
 
-	public Pref(String key, String defaultValue) {
+	public IntPref(String key, int defaultValue) {
 		this.key = key;
 		this.defaultValue = defaultValue;
 	}
 
-	public String get(Preferences preferences) {
-		return preferences == null ? defaultValue : preferences.get(key, defaultValue);
+	public int get(Preferences preferences) {
+		return preferences == null ? defaultValue : preferences.getInt(key, defaultValue);
 	}
 
-	public void put(Preferences preferences, String value) {
+	public void put(Preferences preferences, int value) {
 		if (preferences != null) {
 			if (value != defaultValue) {
-				preferences.put(key, value);
+				preferences.putInt(key, value);
 			} else {
 				preferences.remove(key);
 			}
