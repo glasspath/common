@@ -62,11 +62,11 @@ public class FormatUtils extends CoreFormatUtils {
 
 	public static void setMileageType(MileageType mileageType) {
 
-		MILEAGE_TYYPE = mileageType;
+		MILEAGE_TYPE = mileageType;
 
-		if (MILEAGE_TYYPE == MileageType.KM) {
+		if (MILEAGE_TYPE == MileageType.KM) {
 			MILEAGE_UNIT_LOWER_CASE = Resources.getString("mileageUnitKm");
-		} else if (MILEAGE_TYYPE == MileageType.MILES) {
+		} else if (MILEAGE_TYPE == MileageType.MILES) {
 			MILEAGE_UNIT_LOWER_CASE = Resources.getString("mileageUnitMiles");
 		}
 

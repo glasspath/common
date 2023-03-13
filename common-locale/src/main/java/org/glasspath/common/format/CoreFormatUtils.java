@@ -37,8 +37,9 @@ public class CoreFormatUtils {
 		KM, MILES
 	}
 
+	// TODO: This is probably not the best approach..
 	public static String CURRENCY_SYMBOL = "€";
-	public static MileageType MILEAGE_TYYPE = MileageType.KM;
+	public static MileageType MILEAGE_TYPE = MileageType.KM;
 	public static String MILEAGE_UNIT_LOWER_CASE = "km";
 
 	public static final NumberFormat NUMBER_FORMAT = NumberFormat.getInstance(Locale.getDefault());
