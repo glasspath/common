@@ -506,14 +506,23 @@ public class LocaleUtils {
 
 			Currency currency = Currency.getInstance(locale);
 			if (currency != null) {
+				return getCurrencyCode(currency.getCurrencyCode());
+			}
 
-				String code = currency.getCurrencyCode();
-				for (CurrencyCode currencyCode : CurrencyCode.values()) {
-					if (code.equals(currencyCode.code)) {
-						return currencyCode;
-					}
+		}
+
+		return null;
+
+	}
+
+	public static CurrencyCode getCurrencyCode(String code) {
+
+		if (code != null) {
+
+			for (CurrencyCode currencyCode : CurrencyCode.values()) {
+				if (code.equals(currencyCode.code)) {
+					return currencyCode;
 				}
-
 			}
 
 		}
@@ -543,6 +552,14 @@ public class LocaleUtils {
 			return SystemOfUnits.METRIC;
 		}
 
+	}
+
+	public static SystemOfUnits getSystemOfUnits(String code) {
+		if (SystemOfUnits.IMPERIAL.code.equals(code)) {
+			return SystemOfUnits.IMPERIAL;
+		} else {
+			return SystemOfUnits.METRIC;
+		}
 	}
 
 }
