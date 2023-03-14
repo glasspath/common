@@ -33,13 +33,16 @@ import org.glasspath.common.date.DateUtils;
 @SuppressWarnings("nls")
 public class CoreFormatUtils {
 
+	@Deprecated // TODO: Replace by LocaleUtils.SystemOfUnits
 	public static enum MileageType {
 		KM, MILES
 	}
 
 	// TODO: This is probably not the best approach..
 	public static String CURRENCY_SYMBOL = "€";
+	@Deprecated // TODO: Replace by LocaleUtils.SystemOfUnits
 	public static MileageType MILEAGE_TYPE = MileageType.KM;
+	@Deprecated // TODO: Replace by LocaleUtils.SystemOfUnits
 	public static String MILEAGE_UNIT_LOWER_CASE = "km";
 
 	public static final NumberFormat NUMBER_FORMAT = NumberFormat.getInstance(Locale.getDefault());
