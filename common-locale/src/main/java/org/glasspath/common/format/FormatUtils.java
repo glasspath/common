@@ -22,18 +22,70 @@
  */
 package org.glasspath.common.format;
 
+import java.text.DateFormat;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Locale;
 
 import org.glasspath.common.date.DateUtils;
 import org.glasspath.common.format.resources.Resources;
+import org.glasspath.common.locale.LocaleUtils.SystemOfUnits;
 
 @SuppressWarnings("nls")
-public class FormatUtils extends CoreFormatUtils {
+public class FormatUtils {
 
-	protected FormatUtils() {
-		super();
+	public static final NumberFormat NUMBER_FORMAT = NumberFormat.getInstance(Locale.getDefault());
+	public static final DecimalFormat DECIMAL_FORMAT = new DecimalFormat("#.##");
+	public static final DecimalFormat CURRENCY_FORMAT = new DecimalFormat("0.00");
+	public static final DateFormat DATE_FORMAT = new SimpleDateFormat("E d-MMM-yyyy");
+	public static final DateFormat DATE_TIME_FORMAT = new SimpleDateFormat("E d-MMM-yyyy HH:mm");
+	public static final DateFormat DATE_FORMAT_YEAR = new SimpleDateFormat("yyyy");
+	public static final DateFormat DATE_FORMAT_MONTH = new SimpleDateFormat("MMM-yyyy");
+	public static final DateFormat DATE_FORMAT_DAY = new SimpleDateFormat("E");
+	public static final DateFormat ANDROID_DATE_FORMAT = new SimpleDateFormat("EEEE d MMMM yyyy");
+	static {
+		DATE_FORMAT.setTimeZone(DateUtils.TIME_ZONE);
+		DATE_TIME_FORMAT.setTimeZone(DateUtils.TIME_ZONE);
+		DATE_FORMAT_YEAR.setTimeZone(DateUtils.TIME_ZONE);
+		DATE_FORMAT_MONTH.setTimeZone(DateUtils.TIME_ZONE);
+		DATE_FORMAT_DAY.setTimeZone(DateUtils.TIME_ZONE);
+		ANDROID_DATE_FORMAT.setTimeZone(DateUtils.TIME_ZONE);
+	}
+
+	// TODO: This is probably not the best approach..
+	protected static String defaultCurrencySymbol = "€";
+	protected static SystemOfUnits defaultSystemOfUnits = SystemOfUnits.METRIC;
+	protected static String defaultMileageUnit = "km"; // TODO: Replace by SystemOfUnits.distanceSymbol?
+
+	private FormatUtils() {
+
+	}
+
+	public static String getDefaultCurrencySymbol() {
+		return defaultCurrencySymbol;
+	}
+
+	public static void setDefaultCurrencySymbol(String defaultCurrencySymbol) {
+		FormatUtils.defaultCurrencySymbol = defaultCurrencySymbol;
+	}
+
+	public static SystemOfUnits getDefaultSystemOfUnits() {
+		return defaultSystemOfUnits;
+	}
+
+	public static void setDefaultSystemOfUnits(SystemOfUnits defaultSystemOfUnits) {
+		FormatUtils.defaultSystemOfUnits = defaultSystemOfUnits;
+		if (defaultSystemOfUnits == SystemOfUnits.IMPERIAL) {
+			defaultMileageUnit = Resources.getString("mileageUnitMiles");
+		} else {
+			defaultMileageUnit = Resources.getString("mileageUnitKm");
+		}
+	}
+
+	public static String getDefaultMileageUnit() {
+		return defaultMileageUnit;
 	}
 
 	public static float parseFloat(String source) throws ParseException {
@@ -58,18 +110,6 @@ public class FormatUtils extends CoreFormatUtils {
 		SimpleDateFormat simpleDateFormat = locale != null ? new SimpleDateFormat(format, locale) : new SimpleDateFormat(format);
 		simpleDateFormat.setTimeZone(DateUtils.TIME_ZONE);
 		return simpleDateFormat;
-	}
-
-	public static void setMileageType(MileageType mileageType) {
-
-		MILEAGE_TYPE = mileageType;
-
-		if (MILEAGE_TYPE == MileageType.KM) {
-			MILEAGE_UNIT_LOWER_CASE = Resources.getString("mileageUnitKm");
-		} else if (MILEAGE_TYPE == MileageType.MILES) {
-			MILEAGE_UNIT_LOWER_CASE = Resources.getString("mileageUnitMiles");
-		}
-
 	}
 
 }

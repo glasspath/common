@@ -24,9 +24,13 @@ package org.glasspath.common.locale;
 
 import java.util.Currency;
 import java.util.Locale;
+import java.util.Locale.Category;
 
 @SuppressWarnings("nls")
 public class LocaleUtils {
+
+	public static final String SYSTEM_FORMAT_LANGUAGE_TAG = "system-format";
+	public static final String SYSTEM_DISPLAY_LANGUAGE_TAG = "system-display";
 
 	public static enum LanguageTag {
 
@@ -468,9 +472,38 @@ public class LocaleUtils {
 
 	}
 
+	protected static Locale systemDisplayLocale = Locale.getDefault(Category.DISPLAY);
+	protected static Locale systemFormatLocale = Locale.getDefault(Category.FORMAT);
+
+	private LocaleUtils() {
+
+	}
+
+	public static Locale getSystemDisplayLocale() {
+		return systemDisplayLocale;
+	}
+
+	public static Locale getSystemFormatLocale() {
+		return systemFormatLocale;
+	}
+
+	public static Locale getDefaultLocale() {
+		return Locale.getDefault();
+	}
+
+	public static void setDefaultLocale(Locale defaultLocale) {
+		Locale.setDefault(defaultLocale);
+	}
+
 	public static Locale getLocaleForTag(String tag) {
 		if (tag != null && tag.length() > 0) {
-			return Locale.forLanguageTag(tag);
+			if (SYSTEM_FORMAT_LANGUAGE_TAG.equals(tag)) {
+				return systemFormatLocale;
+			} else if (SYSTEM_DISPLAY_LANGUAGE_TAG.equals(tag)) {
+				return systemDisplayLocale;
+			} else {
+				return Locale.forLanguageTag(tag);
+			}
 		} else {
 			return Locale.getDefault();
 		}
