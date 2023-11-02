@@ -70,6 +70,7 @@ public class DateUtils {
 		return calendar1.getTimeInMillis();
 	}
 
+	/*
 	public static void printLocalCalendar(long millis) {
 		System.out.println(getLocalCalendarString(millis));
 	}
@@ -87,6 +88,7 @@ public class DateUtils {
 		calendar1.setTimeInMillis(millis);
 		return calendar1.get(Calendar.YEAR) + "-" + calendar1.get(Calendar.MONTH) + "-" + calendar1.get(Calendar.DAY_OF_MONTH) + " " + calendar1.get(Calendar.HOUR_OF_DAY) + ":" + calendar1.get(Calendar.MINUTE) + ":" + calendar1.get(Calendar.SECOND);
 	}
+	*/
 
 	private static void copyLocalCalendarToCalendar1() {
 		calendar1.set(Calendar.YEAR, localCalendar.get(Calendar.YEAR));
