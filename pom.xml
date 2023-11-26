@@ -32,6 +32,7 @@
 		<module>common-locale</module>
 		<module>common-os</module>
 		<module>common-xml</module>
+		<module>common-io</module>
 	</modules>
 
 	<!--
