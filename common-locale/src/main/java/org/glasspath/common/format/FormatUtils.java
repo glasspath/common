@@ -45,6 +45,7 @@ public class FormatUtils {
 	public static final DateFormat DATE_FORMAT_MONTH = new SimpleDateFormat("MMM-yyyy");
 	public static final DateFormat DATE_FORMAT_DAY = new SimpleDateFormat("E");
 	public static final DateFormat DATE_FORMAT_DAY_MONTH = new SimpleDateFormat("E d MMM");
+	public static final DateFormat DATE_FORMAT_DAY_MONTH_YEAR = new SimpleDateFormat("d-MMM-yyyy");
 	public static final DateFormat ANDROID_DATE_FORMAT = new SimpleDateFormat("EEEE d MMMM yyyy");
 	static {
 		DATE_FORMAT.setTimeZone(DateUtils.TIME_ZONE);
