@@ -22,22 +22,62 @@
  */
 package org.glasspath.common.xml;
 
-public class Field {
+import java.util.ArrayList;
+import java.util.List;
 
-	private final String name;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+
+public class Table {
+
+	@JacksonXmlProperty(isAttribute = true)
 	private final String path;
 
-	public Field(String name, String path) {
-		this.name = name;
-		this.path = path;
-	}
+	@JacksonXmlElementWrapper(localName = "Columns")
+	@JacksonXmlProperty(localName = "Column")
+	private List<Column> columns = new ArrayList<>();
 
-	public String getName() {
-		return name;
+	public Table(String path) {
+		this.path = path;
 	}
 
 	public String getPath() {
 		return path;
+	}
+
+	public List<Column> getColumns() {
+		return columns;
+	}
+
+	public void setColumns(List<Column> columns) {
+		this.columns = columns;
+	}
+
+	public void addColumn(Column column) {
+		columns.add(column);
+	}
+
+	public static class Column {
+
+		@JacksonXmlProperty(isAttribute = true)
+		private final String name;
+
+		@JacksonXmlProperty(isAttribute = true)
+		private final String path;
+
+		public Column(String name, String path) {
+			this.name = name;
+			this.path = path;
+		}
+
+		public String getName() {
+			return name;
+		}
+
+		public String getPath() {
+			return path;
+		}
+
 	}
 
 }

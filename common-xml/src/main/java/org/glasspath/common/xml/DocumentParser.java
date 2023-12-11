@@ -28,6 +28,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 
+import org.glasspath.common.xml.Table.Column;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -35,13 +36,13 @@ import org.w3c.dom.NodeList;
 @SuppressWarnings("nls")
 public class DocumentParser {
 
-	private final FieldList fieldList;
+	private final Table table;
 	private final List<Node> nodePath = new ArrayList<>();
 	private int currentLevel = -1;
 	private Map<String, String> extractedFields = null;
 
-	public DocumentParser(FieldList fieldList) {
-		this.fieldList = fieldList;
+	public DocumentParser(Table table) {
+		this.table = table;
 	}
 
 	public List<Map<String, String>> parse(Document document) {
@@ -77,26 +78,26 @@ public class DocumentParser {
 		nodePath.add(node);
 		currentLevel++;
 
-		if (fieldList != null) {
+		if (table != null) {
 
 			String nodePathAsString = nodePathToString();
 
-			if (nodePathMatches(nodePathAsString, fieldList.getPath())) {
+			if (nodePathMatches(nodePathAsString, table.getPath())) {
 
 				if (extractedFields != null) {
 					occurrences.add(extractedFields);
 					extractedFields = null;
 				}
 
-			} else if (nodePathStartsWith(nodePathAsString, fieldList.getPath())) {
+			} else if (nodePathStartsWith(nodePathAsString, table.getPath())) {
 
-				for (Field field : fieldList) {
+				for (Column column : table.getColumns()) {
 
-					if (nodePathMatches(nodePathAsString, fieldList.getPath() + "/" + field.getPath())) {
+					if (nodePathMatches(nodePathAsString, table.getPath() + "/" + column.getPath())) {
 
 						String value = null;
 
-						String attributeName = getAttributeName(field.getPath());
+						String attributeName = getAttributeName(column.getPath());
 						if (attributeName != null) {
 
 							if (node.hasAttributes()) {
@@ -118,7 +119,7 @@ public class DocumentParser {
 								extractedFields = new HashMap<>();
 							}
 
-							extractedFields.put(field.getName(), value);
+							extractedFields.put(column.getName(), value);
 
 						}
 
