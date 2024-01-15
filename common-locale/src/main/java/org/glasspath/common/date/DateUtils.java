@@ -74,16 +74,16 @@ public class DateUtils {
 	public static void printLocalCalendar(long millis) {
 		System.out.println(getLocalCalendarString(millis));
 	}
-
+	
 	public static String getLocalCalendarString(long millis) {
 		localCalendar.setTimeInMillis(millis);
 		return localCalendar.get(Calendar.YEAR) + "-" + localCalendar.get(Calendar.MONTH) + "-" + localCalendar.get(Calendar.DAY_OF_MONTH) + " " + localCalendar.get(Calendar.HOUR_OF_DAY) + ":" + localCalendar.get(Calendar.MINUTE) + ":" + localCalendar.get(Calendar.SECOND);
 	}
-
+	
 	public static void printGmtCalendar(long millis) {
 		System.out.println(getGmtCalendarString(millis));
 	}
-
+	
 	public static String getGmtCalendarString(long millis) {
 		calendar1.setTimeInMillis(millis);
 		return calendar1.get(Calendar.YEAR) + "-" + calendar1.get(Calendar.MONTH) + "-" + calendar1.get(Calendar.DAY_OF_MONTH) + " " + calendar1.get(Calendar.HOUR_OF_DAY) + ":" + calendar1.get(Calendar.MINUTE) + ":" + calendar1.get(Calendar.SECOND);
@@ -263,10 +263,24 @@ public class DateUtils {
 		return calendar1.getTimeInMillis();
 	}
 
+	public static long getMonthAfterInMillis(long date) {
+		calendar1.setTimeInMillis(date);
+		resetCalendar1ToMidnight();
+		calendar1.add(Calendar.MONTH, 1);
+		return calendar1.getTimeInMillis();
+	}
+
 	public static long getQuarterBeforeInMillis(long date) {
 		calendar1.setTimeInMillis(date);
 		resetCalendar1ToMidnight();
 		calendar1.add(Calendar.MONTH, -3);
+		return calendar1.getTimeInMillis();
+	}
+
+	public static long getQuarterAfterInMillis(long date) {
+		calendar1.setTimeInMillis(date);
+		resetCalendar1ToMidnight();
+		calendar1.add(Calendar.MONTH, 3);
 		return calendar1.getTimeInMillis();
 	}
 
@@ -450,6 +464,13 @@ public class DateUtils {
 	public static int getYear(long date) {
 		calendar1.setTimeInMillis(date);
 		return calendar1.get(Calendar.YEAR);
+	}
+
+	public static long getDateForYear(int year) {
+		calendar1.clear();
+		calendar1.set(Calendar.YEAR, year);
+		resetCalendar1ToMidnight();
+		return calendar1.getTimeInMillis();
 	}
 
 	public static long getDateForWeekNumber(int weekNumber, int year) {
