@@ -277,6 +277,40 @@ public class DateUtils {
 		return calendar1.getTimeInMillis();
 	}
 
+	public static long getQuarterInMillis(int year, int quarter) {
+
+		resetCalendar1ToMidnight();
+
+		calendar1.set(Calendar.YEAR, year);
+
+		switch (quarter) {
+
+		case 1:
+			calendar1.set(Calendar.MONTH, 0);
+			break;
+
+		case 2:
+			calendar1.set(Calendar.MONTH, 3);
+			break;
+
+		case 3:
+			calendar1.set(Calendar.MONTH, 6);
+			break;
+
+		case 4:
+			calendar1.set(Calendar.MONTH, 9);
+			break;
+
+		default:
+			break;
+		}
+
+		calendar1.set(Calendar.DAY_OF_MONTH, 1);
+
+		return calendar1.getTimeInMillis();
+
+	}
+
 	public static long getQuarterAfterInMillis(long date) {
 		calendar1.setTimeInMillis(date);
 		resetCalendar1ToMidnight();
