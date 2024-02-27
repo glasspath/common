@@ -46,14 +46,20 @@ public class FormatUtils {
 	public static final DateFormat DATE_FORMAT_DAY = new SimpleDateFormat("E");
 	public static final DateFormat DATE_FORMAT_DAY_MONTH = new SimpleDateFormat("E d MMM");
 	public static final DateFormat DATE_FORMAT_DAY_MONTH_YEAR = new SimpleDateFormat("d-MMM-yyyy");
+	public static final DateFormat DATE_FORMAT_YEAR_MONTH_DAY_COMPACT = new SimpleDateFormat("yyyyMMdd");
+	public static final DateFormat DATE_FORMAT_HOURS_MINUTES = new SimpleDateFormat("HH:mm");
 	public static final DateFormat ANDROID_DATE_FORMAT = new SimpleDateFormat("EEEE d MMMM yyyy");
 	static {
-		DATE_FORMAT.setTimeZone(DateUtils.TIME_ZONE);
-		DATE_TIME_FORMAT.setTimeZone(DateUtils.TIME_ZONE);
-		DATE_FORMAT_YEAR.setTimeZone(DateUtils.TIME_ZONE);
-		DATE_FORMAT_MONTH.setTimeZone(DateUtils.TIME_ZONE);
-		DATE_FORMAT_DAY.setTimeZone(DateUtils.TIME_ZONE);
-		ANDROID_DATE_FORMAT.setTimeZone(DateUtils.TIME_ZONE);
+		DATE_FORMAT.setTimeZone(DateUtils.DEFAULT_TIME_ZONE);
+		DATE_TIME_FORMAT.setTimeZone(DateUtils.DEFAULT_TIME_ZONE);
+		DATE_FORMAT_YEAR.setTimeZone(DateUtils.DEFAULT_TIME_ZONE);
+		DATE_FORMAT_MONTH.setTimeZone(DateUtils.DEFAULT_TIME_ZONE);
+		DATE_FORMAT_DAY.setTimeZone(DateUtils.DEFAULT_TIME_ZONE);
+		DATE_FORMAT_DAY_MONTH.setTimeZone(DateUtils.DEFAULT_TIME_ZONE);
+		DATE_FORMAT_DAY_MONTH_YEAR.setTimeZone(DateUtils.DEFAULT_TIME_ZONE);
+		DATE_FORMAT_YEAR_MONTH_DAY_COMPACT.setTimeZone(DateUtils.DEFAULT_TIME_ZONE);
+		DATE_FORMAT_HOURS_MINUTES.setTimeZone(DateUtils.DEFAULT_TIME_ZONE);
+		ANDROID_DATE_FORMAT.setTimeZone(DateUtils.DEFAULT_TIME_ZONE);
 	}
 
 	// TODO: This is probably not the best approach..
@@ -104,13 +110,57 @@ public class FormatUtils {
 		}
 	}
 
+	public static String millisToMinutesString(long millis) {
+
+		long t = Math.abs(millis);
+
+		if (t < 60000) {
+			long s = millis / 1000;
+			long ms = millis % 1000;
+			if (ms > 500) {
+				s++;
+			}
+			return s + "s";
+		} else if (t < 3601000) {
+			long m = millis / 60000;
+			long s = (millis - (m * 60000)) / 1000;
+			long ms = millis % 1000;
+			if (ms > 500) {
+				s++;
+				if (s >= 60) {
+					m++;
+					s = 0;
+				}
+			}
+			return m + "m " + s + "s";
+		} else {
+			long h = millis / 3600000;
+			long m = (millis - (h * 3600000)) / 60000;
+			long s = (millis - ((h * 3600000) + (m * 60000))) / 1000;
+			long ms = millis % 1000;
+			if (ms > 500) {
+				s++;
+				if (s >= 60) {
+					m++;
+					s = 0;
+					if (m >= 60) {
+						h++;
+						m = 0;
+					}
+				}
+			}
+			return h + "h " + m + "m " + s + "s";
+		}
+
+	}
+
 	public static SimpleDateFormat createSimpleDateFormat(String format) {
 		return createSimpleDateFormat(format, null);
 	}
 
 	public static SimpleDateFormat createSimpleDateFormat(String format, Locale locale) {
 		SimpleDateFormat simpleDateFormat = locale != null ? new SimpleDateFormat(format, locale) : new SimpleDateFormat(format);
-		simpleDateFormat.setTimeZone(DateUtils.TIME_ZONE);
+		simpleDateFormat.setTimeZone(DateUtils.DEFAULT_TIME_ZONE);
 		return simpleDateFormat;
 	}
 

@@ -29,7 +29,7 @@ import java.util.TimeZone;
 @SuppressWarnings("nls")
 public class DateUtils {
 
-	public static final TimeZone TIME_ZONE = TimeZone.getTimeZone("GMT");
+	public static final TimeZone DEFAULT_TIME_ZONE = TimeZone.getTimeZone("GMT");
 
 	public static final long HOUR_IN_MILLIS = 3600000L;
 	public static final long HALF_HOUR_IN_MILLIS = 1800000L;
@@ -41,8 +41,8 @@ public class DateUtils {
 
 	// TODO: Switch to java.time
 	private static final Calendar localCalendar = Calendar.getInstance();
-	private static final Calendar calendar1 = Calendar.getInstance(TIME_ZONE);
-	private static final Calendar calendar2 = Calendar.getInstance(TIME_ZONE);
+	private static final Calendar calendar1 = Calendar.getInstance(DEFAULT_TIME_ZONE);
+	private static final Calendar calendar2 = Calendar.getInstance(DEFAULT_TIME_ZONE);
 
 	// TODO: Make this configurable in the preferences dialog?
 	static {
@@ -218,6 +218,11 @@ public class DateUtils {
 		calendar1.setTime(date);
 		calendar1.add(Calendar.DATE, 1);
 		return calendar1.getTime();
+	}
+
+	public static int getDayOfMonth(long date) {
+		calendar1.setTimeInMillis(date);
+		return calendar1.get(Calendar.DAY_OF_MONTH);
 	}
 
 	public static long getDayAfterInMillis(long date) {
