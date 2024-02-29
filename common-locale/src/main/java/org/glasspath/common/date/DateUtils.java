@@ -126,16 +126,14 @@ public class DateUtils {
 		calendar1.set(Calendar.MILLISECOND, 0);
 	}
 
-	/*
 	private static void resetCalendar2ToMidnight() {
 		calendar2.set(Calendar.HOUR_OF_DAY, 0);
 		calendar2.set(Calendar.MINUTE, 0);
 		calendar2.set(Calendar.SECOND, 0);
 		calendar2.set(Calendar.MILLISECOND, 0);
 	}
-	 */
 
-	private static void setCalendersToSameTime() {
+	private static void copyTimeOfDayFromCalendar2To1() {
 		calendar1.set(Calendar.HOUR_OF_DAY, calendar2.get(Calendar.HOUR_OF_DAY));
 		// calendar1.set(Calendar.HOUR, calendar2.get(Calendar.HOUR));
 		calendar1.set(Calendar.MINUTE, calendar2.get(Calendar.MINUTE));
@@ -346,7 +344,7 @@ public class DateUtils {
 
 		calendar1.setTimeInMillis(from);
 		calendar2.setTimeInMillis(to);
-		setCalendersToSameTime();
+		copyTimeOfDayFromCalendar2To1();
 		return (int) ((calendar2.getTimeInMillis() - calendar1.getTimeInMillis()) / DAY_IN_MILLIS);
 
 		/*
@@ -561,6 +559,13 @@ public class DateUtils {
 
 	public static float getIntervalInHours(long from, long to) {
 		return (float) (to - from) / HOUR_IN_MILLIS;
+	}
+
+	public static long getMillisSinceMidnight(long date) {
+		calendar1.setTimeInMillis(date);
+		calendar2.setTimeInMillis(date);
+		resetCalendar2ToMidnight();
+		return calendar1.getTimeInMillis() - calendar2.getTimeInMillis();
 	}
 
 	public static long getDatePreservingTime(long oldDate, long newDate) {
