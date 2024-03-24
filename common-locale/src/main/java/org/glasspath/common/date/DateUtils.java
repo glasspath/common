@@ -518,6 +518,13 @@ public class DateUtils {
 		return calendar1.getTimeInMillis();
 	}
 
+	public static long getDateWithoutSeconds(long date) {
+		calendar1.setTimeInMillis(date);
+		calendar1.set(Calendar.SECOND, 0);
+		calendar1.set(Calendar.MILLISECOND, 0);
+		return calendar1.getTimeInMillis();
+	}
+
 	public static long getDateWithTime(long date, Time time) {
 		calendar1.setTimeInMillis(date);
 		if (time != null) {
