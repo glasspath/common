@@ -29,7 +29,7 @@ import java.util.TimeZone;
 @SuppressWarnings("nls")
 public class DateUtils {
 
-	public static final TimeZone DEFAULT_TIME_ZONE = TimeZone.getTimeZone("GMT");
+	public static final TimeZone GMT_TIME_ZONE = TimeZone.getTimeZone("GMT");
 
 	public static final long HOUR_IN_MILLIS = 3600000L;
 	public static final long HALF_HOUR_IN_MILLIS = 1800000L;
@@ -41,8 +41,8 @@ public class DateUtils {
 
 	// TODO: Switch to java.time
 	private static final Calendar localCalendar = Calendar.getInstance();
-	private static final Calendar calendar1 = Calendar.getInstance(DEFAULT_TIME_ZONE);
-	private static final Calendar calendar2 = Calendar.getInstance(DEFAULT_TIME_ZONE);
+	private static final Calendar calendar1 = Calendar.getInstance(GMT_TIME_ZONE);
+	private static final Calendar calendar2 = Calendar.getInstance(GMT_TIME_ZONE);
 
 	// TODO: Make this configurable in the preferences dialog?
 	static {
@@ -58,6 +58,19 @@ public class DateUtils {
 
 	}
 
+	private DateUtils() {
+
+	}
+
+	public static TimeZone getLocalTimeZone() {
+		return localCalendar.getTimeZone();
+	}
+
+	public static void setTimeZone(TimeZone timeZone) {
+		calendar1.setTimeZone(timeZone);
+		calendar2.setTimeZone(timeZone);
+	}
+
 	public static long getLocalTimeInGmtTime() {
 		localCalendar.setTime(new Date());
 		copyLocalCalendarToCalendar1();
@@ -69,26 +82,6 @@ public class DateUtils {
 		copyLocalCalendarToCalendar1();
 		return calendar1.getTimeInMillis();
 	}
-
-	/*
-	public static void printLocalCalendar(long millis) {
-		System.out.println(getLocalCalendarString(millis));
-	}
-	
-	public static String getLocalCalendarString(long millis) {
-		localCalendar.setTimeInMillis(millis);
-		return localCalendar.get(Calendar.YEAR) + "-" + localCalendar.get(Calendar.MONTH) + "-" + localCalendar.get(Calendar.DAY_OF_MONTH) + " " + localCalendar.get(Calendar.HOUR_OF_DAY) + ":" + localCalendar.get(Calendar.MINUTE) + ":" + localCalendar.get(Calendar.SECOND);
-	}
-	
-	public static void printGmtCalendar(long millis) {
-		System.out.println(getGmtCalendarString(millis));
-	}
-	
-	public static String getGmtCalendarString(long millis) {
-		calendar1.setTimeInMillis(millis);
-		return calendar1.get(Calendar.YEAR) + "-" + calendar1.get(Calendar.MONTH) + "-" + calendar1.get(Calendar.DAY_OF_MONTH) + " " + calendar1.get(Calendar.HOUR_OF_DAY) + ":" + calendar1.get(Calendar.MINUTE) + ":" + calendar1.get(Calendar.SECOND);
-	}
-	*/
 
 	private static void copyLocalCalendarToCalendar1() {
 		calendar1.set(Calendar.YEAR, localCalendar.get(Calendar.YEAR));

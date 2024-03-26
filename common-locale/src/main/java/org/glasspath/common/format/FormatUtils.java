@@ -28,6 +28,7 @@ import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Locale;
+import java.util.TimeZone;
 
 import org.glasspath.common.date.DateUtils;
 import org.glasspath.common.format.resources.Resources;
@@ -50,16 +51,7 @@ public class FormatUtils {
 	public static final DateFormat DATE_FORMAT_HOURS_MINUTES = new SimpleDateFormat("HH:mm");
 	public static final DateFormat ANDROID_DATE_FORMAT = new SimpleDateFormat("EEEE d MMMM yyyy");
 	static {
-		DATE_FORMAT.setTimeZone(DateUtils.DEFAULT_TIME_ZONE);
-		DATE_TIME_FORMAT.setTimeZone(DateUtils.DEFAULT_TIME_ZONE);
-		DATE_FORMAT_YEAR.setTimeZone(DateUtils.DEFAULT_TIME_ZONE);
-		DATE_FORMAT_MONTH.setTimeZone(DateUtils.DEFAULT_TIME_ZONE);
-		DATE_FORMAT_DAY.setTimeZone(DateUtils.DEFAULT_TIME_ZONE);
-		DATE_FORMAT_DAY_MONTH.setTimeZone(DateUtils.DEFAULT_TIME_ZONE);
-		DATE_FORMAT_DAY_MONTH_YEAR.setTimeZone(DateUtils.DEFAULT_TIME_ZONE);
-		DATE_FORMAT_YEAR_MONTH_DAY_COMPACT.setTimeZone(DateUtils.DEFAULT_TIME_ZONE);
-		DATE_FORMAT_HOURS_MINUTES.setTimeZone(DateUtils.DEFAULT_TIME_ZONE);
-		ANDROID_DATE_FORMAT.setTimeZone(DateUtils.DEFAULT_TIME_ZONE);
+		setTimeZone(DateUtils.GMT_TIME_ZONE);
 	}
 
 	// TODO: This is probably not the best approach..
@@ -69,6 +61,19 @@ public class FormatUtils {
 
 	private FormatUtils() {
 
+	}
+
+	public static void setTimeZone(TimeZone timeZone) {
+		DATE_FORMAT.setTimeZone(timeZone);
+		DATE_TIME_FORMAT.setTimeZone(timeZone);
+		DATE_FORMAT_YEAR.setTimeZone(timeZone);
+		DATE_FORMAT_MONTH.setTimeZone(timeZone);
+		DATE_FORMAT_DAY.setTimeZone(timeZone);
+		DATE_FORMAT_DAY_MONTH.setTimeZone(timeZone);
+		DATE_FORMAT_DAY_MONTH_YEAR.setTimeZone(timeZone);
+		DATE_FORMAT_YEAR_MONTH_DAY_COMPACT.setTimeZone(timeZone);
+		DATE_FORMAT_HOURS_MINUTES.setTimeZone(timeZone);
+		ANDROID_DATE_FORMAT.setTimeZone(timeZone);
 	}
 
 	public static String getDefaultCurrencySymbol() {
@@ -160,7 +165,7 @@ public class FormatUtils {
 
 	public static SimpleDateFormat createSimpleDateFormat(String format, Locale locale) {
 		SimpleDateFormat simpleDateFormat = locale != null ? new SimpleDateFormat(format, locale) : new SimpleDateFormat(format);
-		simpleDateFormat.setTimeZone(DateUtils.DEFAULT_TIME_ZONE);
+		simpleDateFormat.setTimeZone(DateUtils.GMT_TIME_ZONE);
 		return simpleDateFormat;
 	}
 
