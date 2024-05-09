@@ -553,8 +553,15 @@ public class DateUtils {
 
 	public static String getTimeString(long date) {
 		calendar1.setTimeInMillis(date);
-		int minute = calendar1.get(Calendar.MINUTE);
-		return calendar1.get(Calendar.HOUR_OF_DAY) + ":" + (minute < 10 ? "0" + minute : "" + minute);
+		int minutes = calendar1.get(Calendar.MINUTE);
+		return calendar1.get(Calendar.HOUR_OF_DAY) + ":" + (minutes < 10 ? "0" + minutes : "" + minutes);
+	}
+
+	public static String getTimeWithSecondsString(long date) {
+		calendar1.setTimeInMillis(date);
+		int minutes = calendar1.get(Calendar.MINUTE);
+		int seconds = calendar1.get(Calendar.SECOND);
+		return calendar1.get(Calendar.HOUR_OF_DAY) + ":" + (minutes < 10 ? "0" + minutes : "" + minutes) + ":" + (seconds < 10 ? "0" + seconds : "" + seconds);
 	}
 
 	public static float getIntervalInHours(long from, long to) {
