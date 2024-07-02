@@ -29,6 +29,6 @@ public interface GlasspathSystemProperties {
 
 	String BUNDLED_FONTS_PATH = "glasspath.bundledFontsPath";
 
-	String MODELS_PATH = "glasspath.modelsPath";
+	String BUNDLED_MODELS_PATH = "glasspath.bundledModelsPath";
 
 }
